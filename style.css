@@ -1,0 +1,114 @@
+/* static/style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Um cinza claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.chat-container {
+    background-color: #ffffff; /* Branco */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 90vh; /* Limita a altura para scrollar */
+}
+
+.chat-header {
+    background-color: #28a745; /* Verde UFPB */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #218838;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.chat-header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.chat-history {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; /* Permite scroll vertical */
+    border-bottom: 1px solid #eee;
+    background-color: #fdfdfd;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word; /* Quebra palavras longas */
+}
+
+.user-message {
+    background-color: #e6ffed; /* Verde muito claro */
+    color: #333;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.bot-message {
+    background-color: #f0f8ff; /* Azul claro */
+    color: #333;
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+.message p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 1em;
+    outline: none;
+    margin-right: 10px;
+}
+
+.chat-input button {
+    background-color: #28a745; /* Verde UFPB */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+}
+
+.chat-input button:hover {
+    background-color: #218838; /* Verde mais escuro no hover */
+}
+
+.error {
+    color: #dc3545; /* Vermelho para mensagens de erro */
+}

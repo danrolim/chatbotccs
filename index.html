@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot CCS/UFPB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Chatbot - Atendimento CCS/UFPB</h2>
+            <p>Pergunte sobre: férias, plano de trabalho, afastamentos, atendimento, horário, documentos, contatos...</p>
+        </div>
+        <div class="chat-history" id="chat-history">
+            <div class="message bot-message">
+                <p>Olá! Como posso ajudar?</p>
+                <p>Comandos úteis: "menu", "opções", "listar", "sair"</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Digite sua pergunta...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInputField = document.getElementById('user-input');
+            const userMessage = userInputField.value.trim();
+
+            if (userMessage === "") {
+                return;
+            }
+
+            // Adiciona a mensagem do usuário ao histórico
+            const chatHistory = document.getElementById('chat-history');
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.classList.add('message', 'user-message');
+            userMessageDiv.innerHTML = `<p>${userMessage}</p>`;
+            chatHistory.appendChild(userMessageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight; // Scroll para o final
+
+            userInputField.value = ''; // Limpa o campo de entrada
+
+            // Envia a mensagem para o backend do chatbot
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botResponse = data.answer.replace(/\\n/g, '<br>'); // Converte \n para <br>
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.classList.add('message', 'bot-message');
+                botMessageDiv.innerHTML = `<p>${botResponse}</p>`;
+                chatHistory.appendChild(botMessageDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight; // Scroll para o final
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                const errorMessageDiv = document.createElement('div');
+                errorMessageDiv.classList.add('message', 'bot-message', 'error');
+                errorMessageDiv.innerHTML = `<p>Ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde.</p>`;
+                chatHistory.appendChild(errorMessageDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            });
+        }
+
+        // Enviar mensagem ao pressionar Enter
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
